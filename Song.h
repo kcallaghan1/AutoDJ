@@ -18,10 +18,11 @@ private:
     // Holds the number of times the song has been played.
     int playCount;
 
+
 public:
     // Constructor: makes a new song based on user-input.
     Song(std::string artistIn, std::string titleIn, int durationIn);
-
+/* Won't be necessary, as a Song object does not need any dynamic memory.
     // Copy-constructor:
     Song(const Song& songToCopy);
 
@@ -30,7 +31,7 @@ public:
 
     // Destructor:
     ~Song();
-
+*/
     // Returns song's artist.
     std::string getArtist();
 
@@ -42,6 +43,12 @@ public:
 
     // Returns the number of times the song has been played.
     int getPlayCount();
+
+    // Returns song as string "Artist, Title, Duration (seconds), PlayCount"
+    std::string toString();
+
+    // increase playCount by 1
+    void incrementPlayCount();
 };
 
 
