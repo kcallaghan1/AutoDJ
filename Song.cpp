@@ -21,6 +21,7 @@ Song::Song(const std::string& songString){
     getline(splitter, title, ',');
     getline(splitter, durationString, ',');
     duration = std::stoi(durationString);
+    playCount = 0;
 }
 
 std::string Song::getArtist() {
