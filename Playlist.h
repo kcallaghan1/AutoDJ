@@ -5,9 +5,51 @@
 #ifndef TERMPROJECT_PLAYLIST_H
 #define TERMPROJECT_PLAYLIST_H
 
+#include "Queue.h"
+#include "SongNode.h"
 
-class Playlist {
-// TODO: Add interface and implementation for Playlist Class.
+class Playlist : public Queue{
+private:
+    // Holds the name of the playlist.
+    std::string name;
+
+    // Holds the number of songs in the playlist.
+    int songCount;
+
+    // Points to the first song in the playlist.
+    SongNode* first;
+
+    // Points to the last song in the playlist.
+    SongNode* last;
+
+    // Adds new song at the end of the playlist.
+    void enqueue(Song* songToAdd);
+
+    // Removes a song from the front of the playlist.
+    Song* dequeue();
+
+public:
+    // Constructor
+    Playlist(std::string nameIn);
+
+    // Destructor
+    ~Playlist();
+
+    // Adds song to a playlist
+    void addSong(Song* songToAdd);
+
+    // Removes a song from a playlist and increments song's playCount
+    // Throws exception if the playlist is empty.
+    Song* playNextSong();
+
+    // Returns the name of the playlist.
+    std::string getName();
+
+    // Returns the number of songs in the playlist.
+    int getSongCount();
+
+    // True if songCount == 0.
+    bool isEmpty();
 };
 
 
