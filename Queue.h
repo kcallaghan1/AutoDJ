@@ -5,6 +5,7 @@
 #ifndef TERMPROJECT_QUEUE_H
 #define TERMPROJECT_QUEUE_H
 
+#include <stdexcept>
 #include "Song.h"
 
 class Queue{
@@ -15,9 +16,10 @@ private:
 
 
     // adds new Song to a queue, appending to the end of the queue.
-    virtual void enqueue(Song& songToAdd)=0;
+    virtual void enqueue(Song* songToAdd)=0;
 
     // removes a song from the front of the queue, returns the song.
+    // throw an exception if the Queue is empty.
     virtual Song* dequeue() = 0;
 
 public:
@@ -26,6 +28,8 @@ public:
 
     // destructor
     virtual ~Queue() {}
+
+    virtual bool isEmpty() = 0;
 };
 
 #endif //TERMPROJECT_QUEUE_H
