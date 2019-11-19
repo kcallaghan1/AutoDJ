@@ -10,7 +10,7 @@ SongNode::SongNode(Song& songIn){
 }
 
 SongNode::SongNode(Song* songIn){
-    songPtr = new Song(songIn->toString());
+    songPtr = songIn;
     nextSong = nullptr;
 }
 
@@ -19,10 +19,11 @@ SongNode::SongNode(const SongNode& songIn){
     songPtr = songToEnter;
     nextSong = nullptr;
 }
-
+/*
 SongNode::~SongNode(){
     delete songPtr;
 }
+ */
 
 Song* SongNode::getSong() {
     return songPtr;

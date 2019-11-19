@@ -20,6 +20,7 @@ int main(){
     std::cout << myPlaylist->getSongCount() << std::endl; // Expected 2
     Song* returnedSong1 = myPlaylist->playNextSong();
     std::cout << returnedSong1->toString() << std::endl; // Expect song1.toString()
+    std::cout << returnedSong1->getPlayCount() << std::endl; // Expected 1
     std::cout << myPlaylist->playNextSong()->toString() << std::endl; // Expect song2.toString()
     std::cout << myPlaylist->isEmpty() << std:: endl; // Expected 1
 

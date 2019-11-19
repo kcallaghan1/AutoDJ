@@ -24,7 +24,7 @@ public:
     SongNode(const SongNode& songNodeIn);
 
     // destructor for SongNode.
-    ~SongNode();
+    //~SongNode();
 
     // returns the Song pointed to by songPtr.
     Song* getSong();
