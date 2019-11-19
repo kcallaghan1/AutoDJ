@@ -21,7 +21,6 @@ Song::Song(const std::string& songString){
     getline(splitter, title, ',');
     getline(splitter, durationString, ',');
     duration = std::stoi(durationString);
-
 }
 
 std::string Song::getArtist() {
