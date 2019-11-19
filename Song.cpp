@@ -11,6 +11,19 @@ Song::Song(std::string artistIn, std::string titleIn, int durationIn){
     playCount = 0;
 }
 
+Song::Song(const std::string& songString){
+    std::stringstream splitter (songString);
+    std::string durationString;
+
+    getline(splitter, artist, ',');
+    splitter.get(); // Used to get rid of space in front of artist.Only reasonable when "Artist, Title". If it is
+    // written like "Artist,Title" without space, then it will break.
+    getline(splitter, title, ',');
+    getline(splitter, durationString, ',');
+    duration = std::stoi(durationString);
+
+}
+
 std::string Song::getArtist() {
     return artist;
 }

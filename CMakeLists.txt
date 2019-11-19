@@ -3,4 +3,4 @@ project(TermProject)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(TermProject Song.cpp Song.h Queue.h SongTest.cpp SongTest.cpp)
+add_executable(TermProject Song.cpp Song.h Queue.h main.cpp Playlist.cpp Playlist.h SongNode.cpp SongNode.h)
