@@ -13,18 +13,19 @@ private:
     Queue(const Queue& queueToCopy);
     Queue& operator=(const Queue& queueToCopy);
 
+
+    // adds new Song to a queue, appending to the end of the queue.
+    virtual void enqueue(Song& songToAdd)=0;
+
+    // removes a song from the front of the queue, returns the song.
+    virtual Song* dequeue() = 0;
+
 public:
     // constructor
     Queue() {}
 
     // destructor
     virtual ~Queue() {}
-
-    // adds new Song to a queue, appending to the end of the queue.
-    virtual void enqueue(Song& songToAdd)=0;
-
-    // removes a song from the front of the queue, returns the song.
-    virtual Song dequeue() = 0;
 };
 
 #endif //TERMPROJECT_QUEUE_H
