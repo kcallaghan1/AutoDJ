@@ -15,12 +15,25 @@ Song::Song(const std::string& songString){
     std::stringstream splitter (songString);
     std::string durationString;
 
+    // Removes any whitespace from the front of an attribute
+    while(splitter.peek() == ' '){
+        splitter.get();
+    }
     getline(splitter, artist, ',');
-    splitter.get(); // Used to get rid of space in front of artist.Only reasonable when "Artist, Title". If it is
-    // written like "Artist,Title" without space, then it will break.
+
+    // Removes any whitespace from the front of an attribute
+    while(splitter.peek() == ' '){
+        splitter.get();
+    }
     getline(splitter, title, ',');
+
+    // Removes any whitespace from the front of an attribute
+    while(splitter.peek() == ' '){
+        splitter.get();
+    }
     getline(splitter, durationString, ',');
     duration = std::stoi(durationString);
+
     playCount = 0;
 }
 
