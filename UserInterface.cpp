@@ -114,6 +114,10 @@ void newRandom(){
     std::cout << "Not yet implemented!" << std::endl;
 }
 
+void save(){
+
+}
+
 bool parse(std::string input, Library& lib, PlaylistList& pll){
     std::stringstream ss(input);
     std::string func;
@@ -128,7 +132,12 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
     else if(func == "artist"){
         std::string a;
         getline(ss, a, '\n');
-        artist(a, lib);
+        if(a != "") {
+            artist(a, lib);
+        }
+        else{
+            std::cout << "Please enter an artist!" << std::endl;
+        }
     }
     else if(func == "song"){
         std::string a, t;
@@ -145,7 +154,12 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         }
         getline(ss, t, '\n');
 
-        song(a, t, lib);
+        if(a != "" && t != ""){
+            song(a, t, lib);
+        }
+        else{
+            std::cout << "Please enter an artist and title!" << std::endl;
+        }
     }
     else if(func == "import"){
         import();
@@ -159,12 +173,22 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
     else if(func == "playlist"){
         std::string n;
         getline(ss, n, '\n');
-        playlist(n, pll);
+        if(n != "") {
+            playlist(n, pll);
+        }
+        else{
+            std::cout << "Please enter a playlist to view!" << std::endl;
+        }
     }
     else if(func == "new"){
         std::string n;
         getline(ss, n, '\n');
-        newPlaylist(n, pll);
+        if(n != "") {
+            newPlaylist(n, pll);
+        }
+        else{
+            std::cout << "Please enter a name for the playlist!" << std::endl;
+        }
     }
     else if(func == "add"){
         std::string n, a, t;
@@ -187,7 +211,12 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         }
         getline(ss, t, '\n');
 
-        add(n, a, t, pll, lib);
+        if(n != "" && a != "" && t != "") {
+            add(n, a, t, pll, lib);
+        }
+        else{
+            std::cout << "Please enter a playlist name, artist, and title!" << std::endl;
+        }
     }
     else if(func == "remove"){
         std::string n, a, t;
@@ -210,17 +239,28 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         }
         getline(ss, t, '\n');
 
-        remove(n, a, t, pll, lib);
+        if(n != "" && a != "" && t != "") {
+            remove(n, a, t, pll, lib);
+        }
+        else {
+            std::cout << "Please enter a playlist name, artist, and title!" << std::endl;
+        }
     }
     else if(func == "playnext"){
         std::string n;
         getline(ss, n, '\n');
-        playNext(n, pll);
+        if(n != "") {
+            playNext(n, pll);
+        }
+        else{
+            std::cout << "Please enter a name!" << std::endl;
+        }
     }
     else if(func == "newrandom"){
         newRandom();
     }
     else if(func == "quit"){
+        save();
         std::cout << "Quitting...";
         return false;
     }
