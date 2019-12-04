@@ -50,6 +50,12 @@ public:
 
     // True if songCount == 0.
     bool isEmpty();
+
+    // Returns the duration of a playlist
+    int getDuration();
+
+    // Removes song given specified artist and title.
+    void removeSong(std::string artistIn, std::string titleIn);
 };
 
 
