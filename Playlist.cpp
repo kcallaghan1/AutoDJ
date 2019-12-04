@@ -85,26 +85,38 @@ int Playlist::getDuration() {
     return duration;
 }
 
-void Playlist::removeSong(std::string artistIn, std::string titleIn) {
+bool Playlist::removeSong(std::string artistIn, std::string titleIn) {
     if(songCount == 0){
-        throw std::invalid_argument("Error! No songs to remove");
+        return false;
     }
     SongNode* temp = first;
-    if(first->getSong()->getTitle().compare(titleIn) == 0 && first->getSong()->getArtist().compare(artistIn) == 0){
+    if(first->getSong()->getTitle() == titleIn && first->getSong()->getArtist() == artistIn){
         first = temp->getNext();
         delete temp;
         songCount--;
+        return true;
     }
     else{
         while(temp->getNext() != nullptr) {
             SongNode *temp2 = temp->getNext();
-            if (temp2->getSong()->getArtist().compare(artistIn) == 0 && temp2->getSong()->getTitle().compare(titleIn) == 0) {
+            if (temp2->getSong()->getTitle() == titleIn && temp2->getSong()->getArtist() == artistIn) {
                 temp->setNext(temp2->getNext());
                 delete temp2;
                 songCount--;
-                break;
+                return true;
             }
             temp = temp->getNext();
         }
     }
+    return false;
+}
+
+std::string Playlist::toString(){
+    std::string returnString = name + "\n" + std::to_string(songCount) + "\n";
+    SongNode* temp = first;
+    while(temp != nullptr){
+        returnString += temp->getSong()->toString() + "\n";
+        temp = temp->getNext();
+    }
+    return returnString;
 }

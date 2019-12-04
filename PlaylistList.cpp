@@ -74,7 +74,7 @@ int PlaylistList::_find(std::string playListTofind){
 std::string PlaylistList::toString(){
     std::string returnString = "";
     for(int i = 0; i < this->currentSize; i++){
-        returnString += this->playlistArray[i]->getName() + "\n";
+        returnString += this->playlistArray[i]->getName() + "\t" + std::to_string(this->playlistArray[i]->getDuration()) + "\n";
     }
     return returnString;
 }

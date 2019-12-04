@@ -6,8 +6,8 @@
 
 Library::Library(){
     this->currentSize = 0;
-    this->maxSize = 1;
-    this->songArray = new Song*[1];
+    this->maxSize = 2;
+    this->songArray = new Song*[2];
 }
 
 Library::~Library(){
@@ -29,7 +29,12 @@ void Library::doubleSize() {
 
 int Library::_find(std::string artist, std::string title, int start, int end){
     if(end == start){
-        return -1;
+        if(this->songArray[start]->getArtist() == artist && this->songArray[start]->getTitle() == title){
+            return start;
+        }
+        else {
+            return -1;
+        }
     }
     int midpoint = (end - start) / 2;
     std::string artistAt = this->songArray[midpoint]->getArtist();
@@ -53,26 +58,35 @@ int Library::_find(std::string artist, std::string title, int start, int end){
 
 void Library::add(Song& songToAdd){
     int loc = 0;
-    while(loc < this->currentSize && songToAdd.getArtist() < this->songArray[loc]->getArtist()){
+    while(loc < this->currentSize && songToAdd.getArtist() > this->songArray[loc]->getArtist()){
         loc++;
     }
     while(loc < this->currentSize &&
     songToAdd.getArtist() == this->songArray[loc]->getArtist() &&
-    songToAdd.getTitle() < this->songArray[loc]->getTitle()){
+    songToAdd.getTitle() > this->songArray[loc]->getTitle()){
         loc++;
     }
     if(this->currentSize >= this->maxSize){
         this->doubleSize();
     }
-    for(int i = currentSize; i > loc; i--){
-        this->songArray[i] = this->songArray[i-1];
+    if(this->songArray[loc] == nullptr){
+        this->songArray[loc] = &songToAdd;
+        currentSize++;
     }
-    this->songArray[loc] = &songToAdd;
-    currentSize++;
+    else if(this->songArray[loc]->getArtist() != songToAdd.getArtist() || this->songArray[loc]->getTitle() != songToAdd.getTitle()) {
+        for (int i = currentSize; i > loc; i--) {
+            this->songArray[i] = this->songArray[i - 1];
+        }
+        this->songArray[loc] = &songToAdd;
+        currentSize++;
+    }
+    else{
+        std::cout << "Duplicate song detected:  " << songToAdd.toString() << std::endl;
+    }
 }
 
 bool Library::remove(std::string artist, std::string title){
-    int loc = _find(artist, title, 0, currentSize);
+    int loc = _find(artist, title, 0, currentSize - 1);
     if(loc >= 0) {
         this->currentSize--;
         for (int i = loc; i < this->currentSize; i++) {
@@ -88,7 +102,7 @@ bool Library::remove(Song& songToRemove){
 }
 
 Song* Library::find(std::string artist, std::string title){
-    int loc = _find(artist, title, 0, this->currentSize);
+    int loc = _find(artist, title, 0, this->currentSize - 1);
     if(loc >= 0) {
         return this->songArray[loc];
     }
@@ -97,10 +111,6 @@ Song* Library::find(std::string artist, std::string title){
 
 Song* Library::find(Song& songToFind){
     return find(songToFind.getArtist(), songToFind.getTitle());
-}
-
-void Library::merge(Library secondLib){
-
 }
 
 std::string Library::toString(){

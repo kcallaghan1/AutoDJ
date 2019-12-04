@@ -29,8 +29,6 @@ public:
     bool remove(std::string artist, std::string title);
     //Finds and returns the playlist from the list of playlists
     Song* find(std::string artist, std::string title);
-    //Merges the given library into this library, ignoring duplicates
-    void merge(Library secondLib);
     //Returns a string with all the songs in the library one to a line
     std::string toString();
     //Same as toString but only for a specific artist

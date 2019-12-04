@@ -5,6 +5,7 @@
 #import <iostream>
 #import "Library.h"
 #import "PlaylistList.h"
+#import "FileManager.h"
 
 void help(){
     std::cout <<
@@ -42,8 +43,9 @@ void song(std::string artist, std::string title, Library& lib){
     }
 }
 
-void import(){
-    std::cout << "Not yet implemented!" << std::endl;
+void import(std::string fileName, Library& lib){
+    FileManager* fm = new FileManager();
+    fm->importToLibrary(fileName, lib);
 }
 
 void discontinue(){
@@ -56,8 +58,8 @@ void playlists(PlaylistList& pll){
 
 void playlist(std::string name, PlaylistList& pll){
     Playlist* pl = pll.find(name);
-    std::cout << "Not yet implemented!" << std::endl;
-    //std::cout << pl.toString();
+    std::cout << pl->toString();
+    std::cout << "Remaining Duration:  " << pl->getDuration() << std::endl;
 }
 
 void newPlaylist(std::string name, PlaylistList& pll) {
@@ -82,31 +84,36 @@ void add(std::string name, std::string artist, std::string title, PlaylistList& 
 }
 
 void remove(std::string name, std::string artist, std::string title, PlaylistList& pll, Library& lib){
-    std::cout << "Not yet implemented!" << std::endl;
-    /*Song* song = lib.find(artist, title);
     Playlist* pl = pll.find(name);
-    if(song != nullptr && pl != nullptr){
-        pl->removeSong(song);
+    if(pl != nullptr && pl->removeSong(artist, title)){
         std::cout << "Removed song from playlist!" << std::endl;
     }
-    else if(song == nullptr){
-        std::cout << "Could not find song" << std::endl;
-    }
-    if(pl == nullptr){
+    else if(pl == nullptr){
         std::cout << "Could not find playlist" << std::endl;
-    }*/
+    }
+    else{
+        std::cout << "Could not find song:  " << artist << ", " << title << std::endl;
+    }
 }
 
 void playNext(std::string name, PlaylistList& pll){
     Playlist* pl = pll.find(name);
-    if(pl != nullptr){
+    if(pl != nullptr && !pl->isEmpty()){
         Song* songToPlay =  pl->playNextSong();
         if(songToPlay != nullptr) {
             std::cout <<songToPlay->toString() << std::endl;
+            if(pl->isEmpty()){
+                std::cout << "Playlist is empty, deleting!" << std::endl;
+                pll.remove(*pl);
+            }
         }
     }
-    else{
+    else if(pl == nullptr){
         std::cout << "Could not find playlist" << std::endl;
+    }
+    else if(pl->isEmpty()){
+        std::cout << "Playlist is empty, deleting!" << std::endl;
+        pll.remove(*pl);
     }
 }
 
@@ -126,7 +133,6 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         help();
     }
     else if(func == "library"){
-        std::cout << "Outputting library" << std::endl;
         library(lib);
     }
     else if(func == "artist"){
@@ -162,7 +168,13 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         }
     }
     else if(func == "import"){
-        import();
+        std::cout << "Not yet implemented!" << std::endl;
+        /*std::string fn;
+        while(ss.peek() == ' '){
+            ss.get();
+        }
+        getline(ss, fn);
+        import(fn, lib);*/
     }
     else if(func == "discontinue"){
         discontinue();
@@ -272,6 +284,9 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
 
 int main(){
     Library* lib = new Library();
+    lib->add(*new Song("Usher", "Revenge", 100));
+    lib->add(*new Song("Usher", "DJ Got Us Fallin' In Love", 87));
+    lib->add(*new Song("Captain Sparkles", "Revenge", 104));
     PlaylistList* pll = new PlaylistList();
     std::cout << "Enter a command:  ";
     std::string input;

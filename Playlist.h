@@ -54,8 +54,11 @@ public:
     // Returns the duration of a playlist
     int getDuration();
 
-    // Removes song given specified artist and title.
-    void removeSong(std::string artistIn, std::string titleIn);
+    // Removes song given specified artist and title.  Returns true if it was able to remove a song, false if not
+    bool removeSong(std::string artistIn, std::string titleIn);
+
+    //Returns a string containing the name of the playlist, the number of songs in it, as well as all the songs
+    std::string toString();
 };
 
 
