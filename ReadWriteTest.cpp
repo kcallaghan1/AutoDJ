@@ -6,13 +6,13 @@
 
 int main(){
     std::ofstream writeFile;
-    writeFile.open("writeExample.txt");
+    writeFile.open("C:/Users/Kenny/CLionProjects/AutoDJ-master/writeExample.txt"); // Replace this with the path that is unique to your system.
     writeFile << "Writing this to a file.\n";
     writeFile.close();
 
     std::ifstream readFile;
     std::string line;
-    readFile.open("readExample.txt");
+    readFile.open("C:/Users/Kenny/CLionProjects/AutoDJ-master/readExample.txt"); // Replace this with the path that is unique to your system.
     while(getline(readFile, line)){
         std::cout << line << '\n';
     }
