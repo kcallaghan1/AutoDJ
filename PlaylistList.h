@@ -24,13 +24,15 @@ public:
     ~PlaylistList();
 
     //Adds a playlist to the end of the list of playlists
-    void add(Playlist& playlistToAdd);
+    bool add(Playlist& playlistToAdd);
     //Finds and removes the playlist from the list of playlists
     bool remove(std::string playlistToRemove);
     //Finds and returns the playlist from the list of playlists
     Playlist* find(std::string playlistToFind);
     //Returns a string with the names of all the playlists, one per line
     std::string toString();
+    //Returns a string with the following info for each playlist:  Name, Size, each song's toString
+    std::string store();
 
     //Adding these remove and find functions to keep the incrastructure happy
     bool remove(Playlist& playlistToRemove);

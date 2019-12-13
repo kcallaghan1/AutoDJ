@@ -13,16 +13,16 @@ void help(){
     "library\t\t\t\t\t\t\tDisplay all songs in alphabetical order by artist (within artist alphabetical by song)" << std::endl <<
     "artist <artist>\t\t\t\t\tDisplay all songs for the given artist" << std::endl <<
     "song <artist, title>\t\t\tDisplay all information for the given song" << std::endl <<
-    "import <filename>\t\t\t\tNOT IMPLEMENTED  Add all songs from the given file to the library. Print message to the user of any songs that already existed (do not add duplicates)" << std::endl <<
-    "discontinue <filename>\t\t\tNOT IMPLEMENTED  Remove all songs from the given file from the library. Also remove these songs from any playlist in which they occur. Print message to the user of any songs that were not present (couldn't be removed)" << std::endl <<
+    "import <filename>\t\t\t\tAdd all songs from the given file to the library. Print message to the user of any songs that already existed (do not add duplicates)" << std::endl <<
+    "discontinue <filename>\t\t\tRemove all songs from the given file from the library. Also remove these songs from any playlist in which they occur. Print message to the user of any songs that were not present (couldn't be removed)" << std::endl <<
     "playlists\t\t\t\t\t\tdisplay the names of all playlists and their durations" << std::endl <<
     "playlist <name>\t\t\t\t\tdisplay all songs left in the given playlist, and the duration (time it will take to play the remaining songs)" << std::endl <<
     "new <name>\t\t\t\t\t\tMake a new empty playlist with the given name" << std::endl <<
     "add <name, artist, title>\t\tAdd the given song to the end of the given playlist" << std::endl <<
     "remove <name, artist, title>\tremove the given song from the playlist" << std::endl <<
     "playnext <name>\t\t\t\t\tPrint all information about the next song to be played from the given playlist to the screen. Remove that song from the given playlist. Add to the playcount for that song in the library. If the playlist is now empty, it should be removed." << std::endl <<
-    "newrandom <name, duration>\t\tNOT IMPLEMENTED  Make a new playlist with the given name, and populate it with a random group of songs that do not repeat (within this playlist) and are in some shuffled order.  the playlist will have as many songs as can fit without going over the the given duration" << std::endl <<
-    "quit\t\t\t\t\t\t\t(SAVING NOT IMPLEMENTED) Save the library and all playlists and terminate execution" << std::endl;
+    "newrandom <name, duration>\t\tMake a new playlist with the given name, and populate it with a random group of songs that do not repeat (within this playlist) and are in some shuffled order.  the playlist will have as many songs as can fit without going over the the given duration" << std::endl <<
+    "quit\t\t\t\t\t\t\tSave the library and all playlists and terminate execution" << std::endl;
 }
 
 void library(Library& lib){
@@ -45,11 +45,12 @@ void song(std::string artist, std::string title, Library& lib){
 
 void import(std::string fileName, Library& lib){
     FileManager* fm = new FileManager();
-    fm->importToLibrary(fileName, lib);
+    fm->importToLibrary(lib, fileName);
 }
 
-void discontinue(){
-    std::cout << "Not yet implemented!" << std::endl;
+void discontinue(std::string fileName, Library& lib){
+    FileManager* fm = new FileManager();
+    fm->discontinueFromLibrary(lib, fileName);
 }
 
 void playlists(PlaylistList& pll){
@@ -117,12 +118,22 @@ void playNext(std::string name, PlaylistList& pll){
     }
 }
 
-void newRandom(){
-    std::cout << "Not yet implemented!" << std::endl;
+void newRandom(std::string name, int maxDuration, Library& lib, PlaylistList& pll){
+    Playlist* pl = new Playlist(name);
+    pl->popRand(lib, maxDuration);
+    pll.add(*pl);
 }
 
-void save(){
+void save(Library& lib, PlaylistList& pll){
+    FileManager* fm = new FileManager();
+    fm->exportLibrary(lib, "SavedLibrary.txt");
+    fm->exportPlaylistList(pll, "SavedPlaylists.txt");
+}
 
+void load(Library& lib, PlaylistList** pll){
+    FileManager* fm = new FileManager();
+    fm->importToLibrary(lib, "SavedLibrary.txt");
+    fm->importPlaylistList(pll, "SavedPlaylists.txt");
 }
 
 bool parse(std::string input, Library& lib, PlaylistList& pll){
@@ -168,16 +179,20 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         }
     }
     else if(func == "import"){
-        std::cout << "Not yet implemented!" << std::endl;
-        /*std::string fn;
+        std::string fn;
         while(ss.peek() == ' '){
             ss.get();
         }
         getline(ss, fn);
-        import(fn, lib);*/
+        import(fn, lib);
     }
     else if(func == "discontinue"){
-        discontinue();
+        std::string fn;
+        while(ss.peek() == ' '){
+            ss.get();
+        }
+        getline(ss, fn);
+        discontinue(fn, lib);
     }
     else if(func == "playlists"){
         playlists(pll);
@@ -269,10 +284,30 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
         }
     }
     else if(func == "newrandom"){
-        newRandom();
+        std::string n, d;
+
+        // Removes any whitespace from the front of an attribute
+        while(ss.peek() == ' '){
+            ss.get();
+        }
+        getline(ss, n, ',');
+
+        // Removes any whitespace from the front of an attribute
+        while(ss.peek() == ' '){
+            ss.get();
+        }
+        getline(ss, d, '\n');
+
+        if(n != "" && d != ""){
+            int maxDuration = std::stoi(d);
+            newRandom(n, maxDuration, lib, pll);
+        }
+        else{
+            std::cout << "Please enter a name and max duration!" << std::endl;
+        }
     }
     else if(func == "quit"){
-        save();
+        save(lib, pll);
         std::cout << "Quitting...";
         return false;
     }
@@ -284,10 +319,8 @@ bool parse(std::string input, Library& lib, PlaylistList& pll){
 
 int main(){
     Library* lib = new Library();
-    lib->add(*new Song("Usher", "Revenge", 100));
-    lib->add(*new Song("Usher", "DJ Got Us Fallin' In Love", 87));
-    lib->add(*new Song("Captain Sparkles", "Revenge", 104));
-    PlaylistList* pll = new PlaylistList();
+    PlaylistList* pll;
+    load(*lib, &pll);
     std::cout << "Enter a command:  ";
     std::string input;
     getline(std::cin, input, '\n');

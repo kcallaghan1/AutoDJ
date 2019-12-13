@@ -14,7 +14,7 @@ private:
     Vector& operator=(const Vector& queueToCopy);
 
     //Adds a new value to the vector at the end
-    virtual void add(T& thingToAdd) = 0;
+    virtual bool add(T& thingToAdd) = 0;
 
     //Finds and removes the given value from the vector
     virtual bool remove(T& thingToRemove) = 0;

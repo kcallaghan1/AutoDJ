@@ -17,11 +17,12 @@ PlaylistList::~PlaylistList() {
     delete[] playlistArray;
 }
 
-void PlaylistList::add(Playlist& playlistToAdd){
+bool PlaylistList::add(Playlist& playlistToAdd){
     if(this->currentSize >= this->maxSize){
         this->doubleSize();
     }
     this->playlistArray[currentSize++] = &playlistToAdd;
+    return true;
 }
 
 bool PlaylistList::remove(std::string playlistToRemove){
@@ -75,6 +76,14 @@ std::string PlaylistList::toString(){
     std::string returnString = "";
     for(int i = 0; i < this->currentSize; i++){
         returnString += this->playlistArray[i]->getName() + "\t" + std::to_string(this->playlistArray[i]->getDuration()) + "\n";
+    }
+    return returnString;
+}
+
+std::string PlaylistList::store(){
+    std::string returnString = "";
+    for(int i = 0; i < this->currentSize; i++){
+        returnString += this->playlistArray[i]->toString();
     }
     return returnString;
 }

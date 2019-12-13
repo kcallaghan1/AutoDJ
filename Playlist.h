@@ -6,7 +6,10 @@
 #define TERMPROJECT_PLAYLIST_H
 
 #include "Queue.h"
+#include "Library.h"
 #include "SongNode.h"
+
+class Library;
 
 class Playlist : public Queue{
 private:
@@ -59,6 +62,9 @@ public:
 
     //Returns a string containing the name of the playlist, the number of songs in it, as well as all the songs
     std::string toString();
+
+    //Populates a playlist with random songs that don't repeat
+    void popRand(Library& lib, int maxDuration);
 };
 
 

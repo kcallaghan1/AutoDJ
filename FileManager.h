@@ -11,10 +11,11 @@
 
 class FileManager {
 public:
-    PlaylistList* importPlaylistList(std::string fileName);
+    void importPlaylistList(PlaylistList** pll, std::string fileName);
     void exportPlaylistList(PlaylistList& pll, std::string fileName);
 
-    void importToLibrary(std::string fileName, Library& lib);
+    void importToLibrary(Library& lib, std::string fileName);
+    void discontinueFromLibrary(Library& lib, std::string fileName);
     void exportLibrary(Library& lib, std::string fileName);
 };
 

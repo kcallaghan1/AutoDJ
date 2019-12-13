@@ -111,6 +111,13 @@ bool Playlist::removeSong(std::string artistIn, std::string titleIn) {
     return false;
 }
 
+void Playlist::popRand(Library& lib, int maxDuration) {
+    lib.popAllRandOrder(this);
+    while(this->getDuration() > maxDuration){
+        this->dequeue();
+    }
+}
+
 std::string Playlist::toString(){
     std::string returnString = name + "\n" + std::to_string(songCount) + "\n";
     SongNode* temp = first;
