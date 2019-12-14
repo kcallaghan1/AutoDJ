@@ -51,7 +51,7 @@ public:
     // Returns the number of times the song has been played.
     int getPlayCount();
 
-    // Returns song as string "Artist, Title, Duration (seconds)"
+    // Returns song as string "Artist, Title, Duration (seconds), Playcount"
     std::string toString();
 
     // increase playCount by 1

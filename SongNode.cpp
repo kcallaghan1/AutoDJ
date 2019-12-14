@@ -13,13 +13,12 @@ SongNode::SongNode(Song* songIn){
     songPtr = songIn;
     nextSong = nullptr;
 }
-
+/*
 SongNode::SongNode(const SongNode& songIn){
     Song* songToEnter = new Song(songIn.songPtr->toString());
     songPtr = songToEnter;
     nextSong = nullptr;
 }
-/*
 SongNode::~SongNode(){
     delete songPtr;
 }

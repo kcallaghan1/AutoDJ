@@ -34,7 +34,7 @@ void Playlist::enqueue(Song* songToAdd){
 }
 
 Song* Playlist::dequeue(){
-    Song* output = new Song(first->getSong()->toString());
+    Song* output = first->getSong();
     SongNode* temp = first;
     first = first->getNext();
     delete temp;

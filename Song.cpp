@@ -60,8 +60,8 @@ std::string Song::toString() {
     output += title;
     output += ", ";
     output += std::to_string(duration);
-/*    output += ", ";
-    output += std::to_string(playCount); */
+    output += ", ";
+    output += std::to_string(playCount);
     return output;
 }
 
