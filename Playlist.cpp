@@ -122,8 +122,14 @@ std::string Playlist::toString(){
     std::string returnString = name + "\n" + std::to_string(songCount) + "\n";
     SongNode* temp = first;
     while(temp != nullptr){
-        returnString += temp->getSong()->toString() + "\n";
+        returnString += temp->getSong()->toString();
         temp = temp->getNext();
     }
     return returnString;
+}
+
+bool Playlist::operator==(Playlist& pl){
+    if(name == pl.name)
+        return true;
+    else return false;
 }

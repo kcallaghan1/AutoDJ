@@ -67,9 +67,9 @@ void FileManager::discontinueFromLibrary(Library& lib, std::string fileName) {
         std::cout << "Error importing given file:  "  << e.what() << std::endl;
     }
     if(inputStream) {
-        std::string parse;
-        while (getline(*inputStream, parse)) {
-            if(lib.remove(*(new Song(parse)))){
+        std::string artist, title, duration;
+        while (getline(*inputStream, artist, ',') && inputStream->get() && getline(*inputStream, title, ',') && getline(*inputStream, duration)) {
+            if(lib.remove(artist, title)){
                 count++;
             }
         }

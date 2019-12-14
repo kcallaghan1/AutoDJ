@@ -5,19 +5,12 @@
 #ifndef TERMPROJECT_PLAYLISTLIST_H
 #define TERMPROJECT_PLAYLISTLIST_H
 
-#import "Vector.h"
+#import "ArrayList.h"
 #import "Playlist.h"
 
-class PlaylistList : public Vector<Playlist>{
+class PlaylistList{
 private:
-    //Keeps track of the amount of playlists the array currently holds, and how many it can hold at maximum
-    int currentSize, maxSize;
-    //Holds the pointer to the main array of playlists
-    Playlist** playlistArray;
-    //Finds a playlist's index based on the name and returns it
-    int _find(std::string playListToFind);
-    //Doubles the max capacity of the array and moves contents over
-    void doubleSize();
+    List<Playlist>* playlistList;
 public:
     //Constructor and Destructor
     PlaylistList();
@@ -33,10 +26,6 @@ public:
     std::string toString();
     //Returns a string with the following info for each playlist:  Name, Size, each song's toString
     std::string store();
-
-    //Adding these remove and find functions to keep the incrastructure happy
-    bool remove(Playlist& playlistToRemove);
-    Playlist* find(Playlist& playlistToFind);
 };
 
 

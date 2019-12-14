@@ -13,7 +13,7 @@ Song::Song(std::string artistIn, std::string titleIn, int durationIn){
 
 Song::Song(const std::string& songString){
     std::stringstream splitter (songString);
-    std::string durationString;
+    std::string durationString, playedString;
 
     // Removes any whitespace from the front of an attribute
     while(splitter.peek() == ' '){
@@ -34,7 +34,12 @@ Song::Song(const std::string& songString){
     getline(splitter, durationString, ',');
     duration = std::stoi(durationString);
 
-    playCount = 0;
+    // Removes any whitespace from the front of an attribute
+    while(splitter.peek() == ' '){
+        splitter.get();
+    }
+    getline(splitter, playedString, ',');
+    playCount = std::stoi(playedString);
 }
 
 std::string Song::getArtist() {
@@ -62,9 +67,52 @@ std::string Song::toString() {
     output += std::to_string(duration);
     output += ", ";
     output += std::to_string(playCount);
+    output += "\n";
     return output;
 }
 
 void Song::incrementPlayCount() {
     playCount++;
+}
+
+bool Song::operator==(Song& s){
+    if(artist == s.artist && title == s.title)
+        return true;
+    else return false;
+}
+
+bool Song::operator!=(Song& s){
+    return !(*this == s);
+}
+
+bool Song::operator>(Song& s){
+    if(artist > s.artist)
+        return true;
+    else if(artist == s.artist && title > s.title)
+        return true;
+    else return false;
+}
+
+bool Song::operator<(Song& s){
+    if(artist < s.artist)
+        return true;
+    else if(artist == s.artist && title < s.title)
+        return true;
+    else return false;
+}
+
+bool Song::operator>=(Song& s){
+    if(artist > s.artist)
+        return true;
+    else if(artist == s.artist && title >= s.title)
+        return true;
+    else return false;
+}
+
+bool Song::operator<=(Song& s){
+    if(artist < s.artist)
+        return true;
+    else if(artist == s.artist && title <= s.title)
+        return true;
+    else return false;
 }

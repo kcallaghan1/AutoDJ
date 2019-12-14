@@ -65,6 +65,8 @@ public:
 
     //Populates a playlist with random songs that don't repeat
     void popRand(Library& lib, int maxDuration);
+
+    bool operator==(Playlist& pl);
 };
 
 

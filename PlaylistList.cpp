@@ -5,85 +5,44 @@
 #include "PlaylistList.h"
 
 PlaylistList::PlaylistList(){
-    this->currentSize = 0;
-    this->maxSize = 1;
-    this->playlistArray = new Playlist*[1];
+    playlistList = new ArrayList<Playlist>();
 }
 
 PlaylistList::~PlaylistList() {
-    for(int i = 0; i < currentSize; i++){
-        delete playlistArray[i];
-    }
-    delete[] playlistArray;
+    delete playlistList;
 }
 
 bool PlaylistList::add(Playlist& playlistToAdd){
-    if(this->currentSize >= this->maxSize){
-        this->doubleSize();
-    }
-    this->playlistArray[currentSize++] = &playlistToAdd;
-    return true;
+    return playlistList->add(playlistToAdd);
 }
 
 bool PlaylistList::remove(std::string playlistToRemove){
-    int loc = _find(playlistToRemove);
-    if(loc >= 0) {
-        this->currentSize--;
-        for (int i = loc; i < this->currentSize; i++) {
-            this->playlistArray[i] = this->playlistArray[i + 1];
-        }
-        return true;
-    }
-    else return false;
-}
-
-bool PlaylistList::remove(Playlist &playlistToRemove) {
-    return this->remove(playlistToRemove.getName());
+    Playlist* pl = new Playlist(playlistToRemove);
+    bool result = playlistList->remove(*pl);
+    delete pl;
+    return result;
 }
 
 Playlist* PlaylistList::find(std::string playlistToFind){
-    int loc = _find(playlistToFind);
-    if(loc >= 0) {
-        return this->playlistArray[loc];
-    }
-    else return nullptr;
-}
-
-Playlist* PlaylistList::find(Playlist &playlistToFind) {
-    return this->find(playlistToFind.getName());
-}
-
-void PlaylistList::doubleSize() {
-    this->maxSize *= 2;
-    Playlist** newPlaylistArray = new Playlist*[this->maxSize];
-    for(int i = 0; i < this->currentSize; i++){
-        newPlaylistArray[i] = this->playlistArray[i];
-    }
-    delete[] this->playlistArray;
-    this->playlistArray = newPlaylistArray;
-}
-
-int PlaylistList::_find(std::string playListTofind){
-    for(int i = 0; i < currentSize; i++){
-        if(this->playlistArray[i]->getName() == playListTofind) {
-            return i;
-        }
-    }
-    return -1;
+    Playlist* pl = new Playlist(playlistToFind);
+    Playlist* returnPL = playlistList->find(*pl);
+    delete pl;
+    return returnPL;
 }
 
 std::string PlaylistList::toString(){
-    std::string returnString = "";
-    for(int i = 0; i < this->currentSize; i++){
-        returnString += this->playlistArray[i]->getName() + "\t" + std::to_string(this->playlistArray[i]->getDuration()) + "\n";
+    std::string output = "";
+    for(int i = 0; i < playlistList->getSize(); i++){
+        Playlist* pl = playlistList->get(i);
+        output += pl->getName() + ", " + std::to_string(pl->getDuration()) + "\n";
     }
-    return returnString;
+    return output;
 }
 
 std::string PlaylistList::store(){
-    std::string returnString = "";
-    for(int i = 0; i < this->currentSize; i++){
-        returnString += this->playlistArray[i]->toString();
+    std::string output = "";
+    for(int i = 0; i < playlistList->getSize(); i++){
+        output += playlistList->get(i)->toString();
     }
-    return returnString;
+    return output;
 }

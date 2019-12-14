@@ -107,10 +107,10 @@ void playNext(std::string name, PlaylistList& pll){
     if(pl != nullptr && !pl->isEmpty()){
         Song* songToPlay =  pl->playNextSong();
         if(songToPlay != nullptr) {
-            std::cout <<songToPlay->toString() << std::endl;
+            std::cout <<songToPlay->toString();
             if(pl->isEmpty()){
                 std::cout << "Playlist is empty, deleting!" << std::endl;
-                pll.remove(*pl);
+                pll.remove(pl->getName());
             }
         }
     }
@@ -119,7 +119,7 @@ void playNext(std::string name, PlaylistList& pll){
     }
     else if(pl->isEmpty()){
         std::cout << "Playlist is empty, deleting!" << std::endl;
-        pll.remove(*pl);
+        pll.remove(pl->getName());
     }
 }
 

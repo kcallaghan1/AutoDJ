@@ -56,6 +56,16 @@ public:
 
     // increase playCount by 1
     void incrementPlayCount();
+
+    // Checks if the artist and title of two songs match
+    bool operator==(Song& s);
+    bool operator!=(Song& s);
+
+    // Compares two songs based off lexicographical ordering of artist and then title
+    bool operator<(Song& s);
+    bool operator>(Song& s);
+    bool operator<=(Song& s);
+    bool operator>=(Song& s);
 };
 
 
