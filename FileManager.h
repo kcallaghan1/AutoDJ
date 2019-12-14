@@ -11,6 +11,8 @@
 
 class FileManager {
 public:
+    FileManager();
+    std::string path;
     void importPlaylistList(PlaylistList** pll, std::string fileName);
     void exportPlaylistList(PlaylistList& pll, std::string fileName);
 

@@ -59,8 +59,13 @@ void playlists(PlaylistList& pll){
 
 void playlist(std::string name, PlaylistList& pll){
     Playlist* pl = pll.find(name);
-    std::cout << pl->toString();
-    std::cout << "Remaining Duration:  " << pl->getDuration() << std::endl;
+    if(pl != nullptr) {
+        std::cout << pl->toString();
+        std::cout << "Remaining Duration:  " << pl->getDuration() << std::endl;
+    }
+    else{
+        std::cout << "No playlist with that name!" << std::endl;
+    }
 }
 
 void newPlaylist(std::string name, PlaylistList& pll) {

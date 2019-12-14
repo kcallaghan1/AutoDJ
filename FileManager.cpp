@@ -4,11 +4,15 @@
 
 #include "FileManager.h"
 
+FileManager::FileManager(){
+    this->path = "../SavedFiles/";
+}
+
 void FileManager::importPlaylistList(PlaylistList** pll, std::string fileName){  //Edit the line below this to be the correct folder
     std::ifstream* inputStream;
     *pll = new PlaylistList();
     try {
-        inputStream= new std::ifstream("C:/Users/LordOfConstructs/Documents/GitHub/AutoDJ/SavedFiles/" + fileName);
+        inputStream= new std::ifstream(this->path + fileName);
     }
     catch(std::exception e){
         std::cout << "Error importing given file:  "  << e.what() << std::endl;
@@ -35,7 +39,7 @@ void FileManager::importToLibrary(Library& lib, std::string fileName) {
     std::ifstream *inputStream = nullptr;
     try {
          inputStream = new std::ifstream(
-                "C:/Users/LordOfConstructs/Documents/GitHub/AutoDJ/SavedFiles/" + fileName);
+                 this->path + fileName);
     }
     catch(std::exception e){
         std::cout << "Error importing given file:  "  << e.what() << std::endl;
@@ -57,7 +61,7 @@ void FileManager::discontinueFromLibrary(Library& lib, std::string fileName) {
     std::ifstream *inputStream = nullptr;
     try {
         inputStream = new std::ifstream(
-                "C:/Users/LordOfConstructs/Documents/GitHub/AutoDJ/SavedFiles/" + fileName);
+                this->path + fileName);
     }
     catch(std::exception e){
         std::cout << "Error importing given file:  "  << e.what() << std::endl;
@@ -78,7 +82,7 @@ void FileManager::exportPlaylistList(PlaylistList &pll, std::string fileName){
     std::ofstream *outputStream = nullptr;
     try {
         outputStream = new std::ofstream(
-                "C:/Users/LordOfConstructs/Documents/GitHub/AutoDJ/SavedFiles/" + fileName);
+                this->path + fileName);
     }
     catch(std::exception e){
         std::cout << "Error importing given file:  "  << e.what() << std::endl;
@@ -93,7 +97,7 @@ void FileManager::exportLibrary(Library &lib, std::string fileName) {
     std::ofstream *outputStream = nullptr;
     try {
         outputStream = new std::ofstream(
-                "C:/Users/LordOfConstructs/Documents/GitHub/AutoDJ/SavedFiles/" + fileName);
+                this->path + fileName);
     }
     catch(std::exception e){
         std::cout << "Error importing given file:  "  << e.what() << std::endl;
